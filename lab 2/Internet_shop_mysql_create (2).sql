@@ -1,3 +1,5 @@
+CREATE DATABASE db_shop CHARACTER SET utf8 ;
+Use db_shop;
 
 CREATE TABLE `user` (
 	`id` int NOT NULL AUTO_INCREMENT,
