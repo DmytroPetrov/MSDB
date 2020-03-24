@@ -1,0 +1,27 @@
+use db_shop;
+SHOW TABLES; DESCRIBE db_shop.order;
+
+select CONSTRAINT_NAME
+from INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+where TABLE_NAME = 'order';
+
+ALTER TABLES db_shop.order DROP FOREGIN KEY <constraint_name>, DROP INDEX user_id;
+
+show index from db_shop.comment;
+
+SHOW CREATE TABLE db_shop.order;
+
+ALTER TABLE db_shop.order DROP COLUMN user_id; 
+ALTER TABLE db_shop.order MODIFY COLUMN type_of_delivery VARCHAR(35) NULL;
+
+ALTER TABLE db_shop.user MODIFY COLUMN last_name VARCHAR(60) NULL;
+
+ALTER TABLE db_shop.comment MODIFY id INT NOT NULL, 
+ADD COLUMN version_id TINYINT(8) UNSIGNED NOT NULL AFTER id, 
+ADD CONSTRAINT UNIQUE UQ_comment_version (id, version_id);
+
+ALTER TABLE db_shop.comment 
+DROP FOREIGN KEY comment_ibfk_2,
+ADD CONSTRAINT comment_article_info_fk1 FOREIGN KEY (article_id) 
+REFERENCES db_shop.article_info (goods_id) ON DELETE CASCADE;
+
