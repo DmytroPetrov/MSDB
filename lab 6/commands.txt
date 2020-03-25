@@ -1,0 +1,11 @@
+CREATE VIEW comment2 AS SELECT DISTINCT user_id, article_id, text FROM comment;
+select * from comment2;
+INSERT INTO comment VALUES (DEFAULT, 19, 11, 'New comment here!', '3'); 
+select * from comment2;
+
+SELECT * FROM comment2 WHERE text IN (SELECT text FROM comment WHERE comment.rate = '4' || comment.rate = '5');
+
+SELECT article.id,  article.goods_name, comment2.text FROM  article, comment2 WHERE comment2.article_id = article.id;
+SELECT user.id, user.email, comment2.text, article.goods_name FROM user, comment2, article WHERE comment2.user_id = user.id && comment2.article_id = article.id;
+
+SELECT article.id,  article.goods_name, comment2.text FROM  article, comment2 WHERE comment2.article_id = article.id && comment2.article_id != 13;
