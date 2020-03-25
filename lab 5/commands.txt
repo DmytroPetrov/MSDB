@@ -1,0 +1,10 @@
+CREATE TABLE user_1 AS SELECT id,email, password FROM user WHERE registration_date > '2020-01-01 01-00-00';
+CREATE TABLE user_2 AS SELECT id,email, password FROM user WHERE registration_date < '2020-03-01 01-00-00';
+
+SELECT * FROM user_1 UNION SELECT * FROM user_2; 
+
+SELECT * FROM user_1 WHERE id IN (SELECT id FROM user_2); 
+
+SELECT * FROM user_2 WHERE id NOT IN (SELECT id FROM user_1);
+
+SELECT * FROM user_1, user_2;
