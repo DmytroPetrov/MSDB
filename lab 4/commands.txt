@@ -1,0 +1,31 @@
+select * from user;
+INSERT INTO user VALUES (DEFAULT, 'Admin', 'ADMIN', 'email@host.com', 'password123', '2020-01-01 09-09-09', DEFAULT); 
+
+select * from article;
+INSERT INTO article VALUES (DEFAULT, 'Laptop Gammers', 25000, 1, '{Text: text, Processor: Intel iCore 10th}'),(DEFAULT, 'Компьютер BRAIN BUSINESS B1000 (B1800.25W)', 9067, 10, 'Идентификатор модели - J1800, Модель видеокарты - HD Graphics, 4 ГБ, Тип памяти - DDR3L,HDD - 500 ГБ, Мощность блока питания - 400 Вт'), (DEFAULT, 'Компьютер GIGABYTE BRIX GB-BKi3HA-7100 (GGBC681659)', 11238, 40, 'Оптический привод - отсутствует, Внешние порты и разъемы - 1 х Audio combo port, 1 х mini DisplayPort, 1 x HDMI');
+
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/user.tbl" INTO TABLE user LINES TERMINATED BY '\r\n';
+
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/article.tbl" INTO TABLE article LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/order.tbl" INTO TABLE db_shop.order LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/group.tbl" INTO TABLE db_shop.group LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/article_group.tbl" INTO TABLE article_group LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/article_info.tbl" INTO TABLE article_info LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/comment.tbl" INTO TABLE comment LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/goods.tbl" INTO TABLE goods LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/delivery.tbl" INTO TABLE delivery LINES TERMINATED BY '\r\n';
+
+UPDATE user SET password = 'very5trOngPA55w0rd' WHERE email = 'email@host.com'; 
+ 
+UPDATE user SET id = id + 1 ORDER BY id DESC;
+
+DELETE FROM delivery WHERE status = 'delivered';
+DELETE FROM delivery WHERE rate is not '4' or '5';
+DELETE FROM db_shop.order WHERE (status != 'accomplished' && accomplished is not NULL);
+
+DELETE delivery
+	from delivery
+left join
+	db_shop.order ON delivery.goods_items_id = order.id
+WHERE
+	delivery.status = 'delivered';
