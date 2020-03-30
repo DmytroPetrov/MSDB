@@ -1,0 +1,42 @@
+SELECT id, first_name, password, AES_ENCRYPT(password,'passw'), AES_DECRYPT(AES_ENCRYPT(password,'passw'), 'passw') FROM user_1;
+
+SELECT id, email FROM user WHERE id = 18;
+
+
+SELECT *
+	FROM delivery
+LEFT JOIN
+	db_shop.order ON delivery.goods_items_id = order.id
+WHERE
+	delivery.status = 'delivered';
+ 
+
+SELECT user.id, user.email, comment.text, comment.rate
+     FROM user
+LEFT JOIN
+     comment ON user.id = comment.user_id
+WHERE
+     EXISTS (SELECT * FROM comment WHERE user.id = comment.user_id);
+
+SELECT order.user_id, order.id, order.status, comment.id, comment.text, comment.rate 
+FROM db_shop.order INNER JOIN comment ON order.user_id = comment.user_id 
+WHERE order.status = 'accomplished';
+
+SELECT user.email, order.status, comment.text, comment.rate 
+FROM (user INNER JOIN db_shop.order) 
+INNER JOIN comment ON order.user_id = user.id AND comment.user_id = order.user_id 
+WHERE order.status IN ('accomplished', 'delivering');
+
+
+SELECT goods.depot, order.status, order.ordered
+FROM db_shop.order
+INNER JOIN goods ON order.id = goods.order_id
+WHERE goods.id IN (SELECT goods.id FROM delivery WHERE status IN ('delivering', 'preparing')) 
+ORDER BY order.ordered DESC LIMIT 3; 
+
+SELECT user.email FROM user 
+WHERE NOT EXISTS 
+(SELECT * FROM comment WHERE comment.user_id = user.id); 
+
+SELECT email, password AS pass FROM user 
+WHERE CHAR_LENGTH(password)<8 OR password NOT REGEXP '[0-9]';
