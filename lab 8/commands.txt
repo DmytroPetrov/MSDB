@@ -1,0 +1,12 @@
+SELECT id, last_name 
+FROM user 
+WHERE last_name LIKE '%admin%' 
+ORDER BY last_name ASC; 
+
+SELECT id, ordered, accomplished 
+FROM db_shop.order 
+ORDER BY accomplished DESC LIMIT 5;
+
+SELECT comment.id, text, goods_name 
+FROM comment INNER JOIN article ON comment.article_id = article.id
+GROUP BY goods_name;  
