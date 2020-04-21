@@ -1,0 +1,28 @@
+SELECT goods_name AS article, COUNT(comment.id) AS comments 
+FROM comment 
+INNER JOIN article 
+ON comment.article_id = article.id 
+GROUP BY goods_name;
+
+SELECT YEAR(ordered) AS year, MONTHNAME(ordered) AS month, COUNT(id) AS orders 
+FROM db_shop.order 
+GROUP BY year, month WITH ROLLUP;
+
+SELECT YEAR(accomplished) AS year, MONTHNAME(accomplished) AS month, COUNT(id) AS orders 
+FROM db_shop.order 
+GROUP BY year, month WITH ROLLUP;
+
+SELECT last_name AS user, AVG(CHAR_LENGTH(text)) AS avg_comment 
+FROM user 
+INNER JOIN comment 
+ON user.id = comment.user_id 
+GROUP BY user; 
+
+SELECT goods_name as article, orders * count(comment.article_id) as rate
+from (SELECT article.id as id, goods_name, count(goods.goods_id) AS orders
+from article
+INNER JOIN goods
+ON goods.goods_id = article.id
+GROUP BY article.id) as ord
+inner join comment
+ON comment.article_id = ord.id;
